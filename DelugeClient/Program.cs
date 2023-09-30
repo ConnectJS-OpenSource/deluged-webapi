@@ -2,7 +2,7 @@ using DelugeClient;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddCommandLine(args);
+builder.Configuration.AddCommandLine(args).AddEnvironmentVariables();
 
 builder.Services.AddCors(s =>
 {
@@ -13,10 +13,20 @@ var app = builder.Build();
 
 app.UseCors();
 
-var client = new DelugeWebClient(app.Configuration.GetValue<string>("url"), app.Configuration.GetValue<string>("password"));
-await client.LoginAsync();
+var deluged_url = app.Configuration.GetValue<string>("deluged-host") ?? app.Configuration.GetValue<string>("DELUGE_URL");
+var deluged_pass = app.Configuration.GetValue<string>("deluged-password") ?? app.Configuration.GetValue<string>("DELUGE_PASS");
+
+Console.WriteLine($"Connecting Deluged at {deluged_url}");
+
+var client = new DelugeWebClient(deluged_url);
 
 app.MapGet("/", () => new { message = "Deluge Web Client UP and Running" });
+
+app.MapGet("/login", async () =>
+{
+    await client.LoginAsync(deluged_pass);
+    return new { message = "OK" };
+});
 
 app.MapGet("/torrents", async () =>
 {
@@ -51,7 +61,5 @@ app.MapGet("/execute/{method}", async ([FromRoute]string method, [FromBody]objec
     var response = await client.ExecuteRaw(method, param);
     return response;
 });
-
-
 
 app.Run();

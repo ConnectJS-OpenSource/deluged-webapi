@@ -34,7 +34,7 @@ namespace DelugeClient
             {"tv", "E:\\TV" }
         };
 
-        public DelugeWebClient(String url, string password)
+        public DelugeWebClient(String url)
         {
             _httpClientHandler = new HttpClientHandler
             {
@@ -49,12 +49,11 @@ namespace DelugeClient
             _RequestId = 1;
 
             Url = url;
-            _password = password;
         }
 
-        public async Task LoginAsync()
+        public async Task LoginAsync(string password)
         {
-            var result = await SendRequestAsync<Boolean>("auth.login", this._password);
+            var result = await SendRequestAsync<Boolean>("auth.login", password);
             if (!result) throw new AuthenticationException("Failed to login.");
         }
 
