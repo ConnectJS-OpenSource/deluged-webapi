@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+    
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: |
+        cd DelugeClient
+        docker build . --file Dockerfile --tag sonuame/deluged-webapi:latest
+
+    - name: Publish Docker Image
+      run: docker push --tag sonuame/deluged-webapi:latest
