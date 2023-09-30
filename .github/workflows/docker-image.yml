@@ -22,4 +22,4 @@ jobs:
         docker build . --file Dockerfile --tag sonuame/deluged-webapi:latest
 
     - name: Publish Docker Image
-      run: docker push --tag sonuame/deluged-webapi:latest
+      run: docker push sonuame/deluged-webapi:latest
