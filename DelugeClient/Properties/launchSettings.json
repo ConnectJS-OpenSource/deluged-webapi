@@ -1,7 +1,7 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "http": {
+    "DelugedWebApiClient": {
       "commandName": "Project",
       "commandLineArgs": "--deluged-host http://192.168.0.118:9090/json --deluged-password admin",
       "dotnetRunMessages": true,

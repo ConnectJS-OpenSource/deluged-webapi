@@ -4,14 +4,17 @@ namespace DelugeClient
 {
     public class Endpoints
     {
+        public static DelugeWebClient client;
+        public static string deluged_url;
+        public static string deluged_pass;
         public static void Register(WebApplication app)
         {
-            var deluged_url = app.Configuration.GetValue<string>("deluged-host") ?? app.Configuration.GetValue<string>("DELUGE_URL");
-            var deluged_pass = app.Configuration.GetValue<string>("deluged-password") ?? app.Configuration.GetValue<string>("DELUGE_PASS");
+            deluged_url = app.Configuration.GetValue<string>("deluged-host") ?? app.Configuration.GetValue<string>("DELUGE_URL");
+            deluged_pass = app.Configuration.GetValue<string>("deluged-password") ?? app.Configuration.GetValue<string>("DELUGE_PASS");
 
             Console.WriteLine($"Connecting Deluged at {deluged_url}");
 
-            var client = new DelugeWebClient(deluged_url);
+            client = new DelugeWebClient(deluged_url);
 
             app.MapGet("/", () => new { message = "Deluge Web Client UP and Running" });
 

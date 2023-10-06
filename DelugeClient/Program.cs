@@ -9,6 +9,8 @@ builder.Services.AddCors(s =>
     s.AddDefaultPolicy(c => c.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 });
 
+builder.Services.AddHostedService<BGService>();
+
 var app = builder.Build();
 
 app.UseCors();
