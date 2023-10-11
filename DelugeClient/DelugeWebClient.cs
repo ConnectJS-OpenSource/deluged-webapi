@@ -53,8 +53,31 @@ namespace DelugeClient
 
         public async Task LoginAsync(string password)
         {
-            var result = await SendRequestAsync<Boolean>("auth.login", password);
+            var result = await SendRequestAsync<bool>("auth.login", password);
             if (!result) throw new AuthenticationException("Failed to login.");
+
+            var daemon_connected = await SendRequestAsync<bool>("web.connected");
+
+            if (!daemon_connected)
+            {
+                var hosts = await SendRequestAsync<object[][]>("web.get_hosts");
+                if(hosts != null && hosts.Length > 0 && hosts[0].Length >= 4)
+                {
+                    var server = new
+                    {
+                        id = hosts[0][0].ToString(),
+                        host = hosts[0][1].ToString(),
+                        port = hosts[0][2].ToString(),
+                        name = hosts[0][3].ToString()
+                    };
+
+
+                    var action_lists = await SendRequestAsync<string[]>("web.connect", server.id);
+                    if(action_lists.Length > 0) { Console.WriteLine("Daemon - Connected"); }
+
+                }
+            }
+
         }
 
         public Task<Boolean> AuthCheckSessionAsync()
