@@ -46,7 +46,7 @@ namespace DelugeClient
             {
                 await client.AddTorrentMagnetAsync(torrent.Path, new TorrentOptions
                 {
-                    DownloadLocation = client.PathMappings[torrent.Type]
+                    DownloadLocation = DelugeWebClient.PathMappings[torrent.Type]
                 });
 
                 return new { message = "OK" };

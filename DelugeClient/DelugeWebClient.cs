@@ -28,11 +28,8 @@ namespace DelugeClient
         public String Url { get; private set; }
         private string _password;
 
-        public Dictionary<string, string> PathMappings = new Dictionary<string, string>()
-        {
-            {"movie", "E:\\Movies" },
-            {"tv", "E:\\TV" }
-        };
+        public static Dictionary<string, string> PathMappings = new Dictionary<string, string>();
+       
 
         public DelugeWebClient(String url)
         {
