@@ -1,5 +1,7 @@
 using DelugeClient;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +17,31 @@ DelugeWebClient.PathMappings = new Dictionary<string, string>()
 };
 
 
-
-
 builder.Services.AddHostedService<BGService>();
 
 var app = builder.Build();
+
+
+
+Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
+app.UseDefaultFiles();
+app.UseStaticFiles();
+app.UseSpa(config =>
+{
+    config.Options.DefaultPage = "/index.html";
+});
+
+app.MapGet("/health", (IConfiguration configuration) =>
+{
+    return new
+    {
+        paths = DelugeClient.DelugeWebClient.PathMappings,
+        host = configuration.GetValue<string>("deluged-host")
+    };
+});
+
+
+
 
 app.UseCors();
 
