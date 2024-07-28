@@ -9,8 +9,8 @@ namespace DelugeClient
         public static string deluged_pass;
         public static void Register(WebApplication app, string root = "/api")
         {
-            deluged_url = app.Configuration.GetValue<string>("deluged-host") ?? app.Configuration.GetValue<string>("DELUGE_URL");
-            deluged_pass = app.Configuration.GetValue<string>("deluged-password") ?? app.Configuration.GetValue<string>("DELUGE_PASS");
+            deluged_url = app.Configuration.GetValue<string>("deluged-host");
+            deluged_pass = app.Configuration.GetValue<string>("deluged-password");
 
             Console.WriteLine($"Connecting Deluged at {deluged_url}");
 
