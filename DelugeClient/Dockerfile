@@ -24,6 +24,6 @@ ENV deluged-pass=
 ENV movie-path=
 ENV tv-path=
 
-ENTRYPOINT ["./DelugeClient", "--urls http://0.0.0.0:80"]
+ENTRYPOINT ["./DelugeClient", "--urls=http://0.0.0.0:80"]
 
 # docker build . -t sonuame/deluged-web && docker push sonuame/deluged-web
