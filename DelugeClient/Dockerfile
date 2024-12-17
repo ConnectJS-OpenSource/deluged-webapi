@@ -16,8 +16,8 @@ WORKDIR /App
 
 EXPOSE 80
 
-COPY --from=build-env /App/out .
-COPY wwwroot wwwroot
+# COPY --from=build-env /App/out .
+# COPY wwwroot wwwroot
 
 ENV deluged-host=
 ENV deluged-pass=
